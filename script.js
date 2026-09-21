@@ -100,7 +100,8 @@
   }
 
   document.addEventListener('click', function (event) {
-    var trackedElement = event.target.closest('[data-track]');
+    var target = event.target;
+    var trackedElement = target && typeof target.closest === 'function' ? target.closest('[data-track]') : null;
 
     if (!trackedElement) {
       return;
