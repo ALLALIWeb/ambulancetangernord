@@ -60,6 +60,18 @@ button {
   font: inherit;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .skip-link {
   position: absolute;
   left: 1rem;
@@ -505,12 +517,21 @@ html[data-language="ar"] .language-switcher {
   flex-direction: row-reverse;
 }
 
-html[data-language="ar"] .brand,
-html[data-language="ar"] .header-actions,
-html[data-language="ar"] .hero-copy,
+html[data-language="ar"] .hero-copy {
+  align-items: flex-end;
+}
+
 html[data-language="ar"] .section-heading,
-html[data-language="ar"] .split-copy {
-  align-items: flex-start;
+html[data-language="ar"] .split-copy,
+html[data-language="ar"] .cta-panel,
+html[data-language="ar"] .emergency-card,
+html[data-language="ar"] .site-footer {
+  text-align: right;
+}
+
+html[data-language="ar"] .trust-list,
+html[data-language="ar"] .cta-group-center {
+  justify-content: flex-end;
 }
 
 @media (min-width: 640px) {
@@ -557,9 +578,12 @@ html[data-language="ar"] .split-copy {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .feature-grid,
-  .steps-grid {
+  .feature-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .steps-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .split-section.areas-section {

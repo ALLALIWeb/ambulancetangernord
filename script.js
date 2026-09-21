@@ -1,11 +1,11 @@
 (function () {
   var root = document.documentElement;
   var switcher = document.getElementById('language-switcher');
-  var trackedElements = document.querySelectorAll('[data-track]');
   var scrollMilestones = { 50: false, 90: false };
   var LANGUAGE_KEY = 'ambulance-tanger-language';
   var switcherText = document.getElementById('language-switcher-text');
   var switcherFlag = document.getElementById('language-switcher-flag');
+  var switcherStatus = document.getElementById('language-status');
 
   function pushEvent(eventName, payload) {
     window.dataLayer = window.dataLayer || [];
@@ -41,6 +41,10 @@
 
     if (switcherFlag) {
       switcherFlag.textContent = language === 'ar' ? '🇲🇦' : '🇫🇷';
+    }
+
+    if (switcherStatus) {
+      switcherStatus.textContent = language === 'ar' ? 'تم تغيير اللغة إلى العربية' : 'Langue changée : français';
     }
 
     switcher.setAttribute('aria-label', language === 'ar' ? 'Changer la langue vers le français' : 'تغيير اللغة إلى العربية');
@@ -95,12 +99,16 @@
     });
   }
 
-  trackedElements.forEach(function (element) {
-    element.addEventListener('click', function () {
-      pushEvent(element.dataset.track, {
-        language: root.dataset.language || 'fr',
-        href: element.getAttribute('href') || ''
-      });
+  document.addEventListener('click', function (event) {
+    var trackedElement = event.target.closest('[data-track]');
+
+    if (!trackedElement) {
+      return;
+    }
+
+    pushEvent(trackedElement.dataset.track, {
+      language: root.dataset.language || 'fr',
+      href: trackedElement.getAttribute('href') || ''
     });
   });
 
