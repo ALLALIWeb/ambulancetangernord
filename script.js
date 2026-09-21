@@ -6,14 +6,12 @@
   var switcherText = document.getElementById('language-switcher-text');
   var switcherFlag = document.getElementById('language-switcher-flag');
   var switcherStatus = document.getElementById('language-status');
+  var mainNav = document.getElementById('main-nav');
+  var whatsappLinks = document.querySelectorAll('[data-whatsapp-link]');
 
   function pushEvent(eventName, payload) {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(Object.assign({ event: eventName }, payload || {}));
-
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', eventName, payload || {});
-    }
   }
 
   function readStoredLanguage() {
@@ -46,6 +44,14 @@
     if (switcherStatus) {
       switcherStatus.textContent = language === 'ar' ? 'تم تغيير اللغة إلى العربية' : 'Langue changée : français';
     }
+
+    if (mainNav) {
+      mainNav.setAttribute('aria-label', language === 'ar' ? 'التنقل الرئيسي' : 'Navigation principale');
+    }
+
+    whatsappLinks.forEach(function (link) {
+      link.href = language === 'ar' ? link.dataset.whatsappAr : link.dataset.whatsappFr;
+    });
 
     switcher.setAttribute('aria-label', language === 'ar' ? 'Changer la langue vers le français' : 'تغيير اللغة إلى العربية');
   }
