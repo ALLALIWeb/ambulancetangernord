@@ -106,10 +106,15 @@
       return;
     }
 
-    pushEvent(trackedElement.dataset.track, {
-      language: root.dataset.language || 'fr',
-      href: trackedElement.getAttribute('href') || ''
-    });
+    var payload = {
+      language: root.dataset.language || 'fr'
+    };
+
+    if (trackedElement.hasAttribute('href')) {
+      payload.href = trackedElement.getAttribute('href');
+    }
+
+    pushEvent(trackedElement.dataset.track, payload);
   });
 
   window.addEventListener('scroll', handleScrollTracking, { passive: true });
