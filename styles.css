@@ -562,7 +562,8 @@ html[data-language="ar"] .split-copy {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .areas-section {
+  .split-section.areas-section {
+    display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     align-items: start;
   }

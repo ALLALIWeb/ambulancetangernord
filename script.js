@@ -4,6 +4,8 @@
   var trackedElements = document.querySelectorAll('[data-track]');
   var scrollMilestones = { 50: false, 90: false };
   var LANGUAGE_KEY = 'ambulance-tanger-language';
+  var switcherText = document.getElementById('language-switcher-text');
+  var switcherFlag = document.getElementById('language-switcher-flag');
 
   function pushEvent(eventName, payload) {
     window.dataLayer = window.dataLayer || [];
@@ -14,8 +16,33 @@
     }
   }
 
+  function readStoredLanguage() {
+    try {
+      return localStorage.getItem(LANGUAGE_KEY);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function writeStoredLanguage(language) {
+    try {
+      localStorage.setItem(LANGUAGE_KEY, language);
+    } catch (error) {
+      // Ignore storage failures and keep the page functional.
+    }
+  }
+
   function updateSwitcherLabel(language) {
     if (!switcher) return;
+
+    if (switcherText) {
+      switcherText.textContent = language === 'ar' ? 'العربية | Français' : 'Français | العربية';
+    }
+
+    if (switcherFlag) {
+      switcherFlag.textContent = language === 'ar' ? '🇲🇦' : '🇫🇷';
+    }
+
     switcher.setAttribute('aria-label', language === 'ar' ? 'Changer la langue vers le français' : 'تغيير اللغة إلى العربية');
   }
 
@@ -28,7 +55,7 @@
     root.dataset.language = nextLanguage;
     document.body.setAttribute('data-dir', direction);
     updateSwitcherLabel(nextLanguage);
-    localStorage.setItem(LANGUAGE_KEY, nextLanguage);
+    writeStoredLanguage(nextLanguage);
 
     if (shouldTrack) {
       pushEvent('language_switch', { language: nextLanguage });
@@ -36,7 +63,7 @@
   }
 
   function detectInitialLanguage() {
-    var savedLanguage = localStorage.getItem(LANGUAGE_KEY);
+    var savedLanguage = readStoredLanguage();
     if (savedLanguage === 'fr' || savedLanguage === 'ar') {
       return savedLanguage;
     }
